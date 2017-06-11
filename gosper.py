@@ -60,6 +60,7 @@ def plot_level(max_level = 6, **kwargs):
     showAllLevel = kwargs.get('showAllLevel', False)
     filename = kwargs.get('filename', None)
     grid = kwargs.get('grid', False)
+    tile = kwargs.get('tile', False)
     import matplotlib.pyplot as plt
     from math import sin, cos, atan
     fAdd = lambda m, d: [(m+e) for e in d]
@@ -81,9 +82,19 @@ def plot_level(max_level = 6, **kwargs):
         x, y = generate_level(res[max_level])
         c, s = cos(max_level * alpha), sin(max_level * alpha)
         xr, yr = fRotateX(c, s, x, y), fRotateY(c, s, x, y)
-        ax.plot(xr, yr,  linewidth=0.5, color='k')
+        if tile:
+            scale = +7.0**0.5
+            for i in range(-2, 3):
+                ax.plot(fAdd(i * scale, xr), yr,  linewidth=0.5, color='C'+str(i+2))
+            for i in range(-2, 2):
+                ax.plot(fAdd(scale*(i+0.5), xr), fAdd(+scale*3**0.5*0.5,yr),  linewidth=0.5, color='C'+str(i+5))
+                ax.plot(fAdd(scale*(i+0.5), xr), fAdd(-scale*3**0.5*0.5,yr),  linewidth=0.5, color='C'+str(i+5))
+
+            plt.axis([-0.5-2*7.0**0.5, +3*7.0**0.5+0.5 , -5.0, 3.0])
+        else:
+            ax.plot(xr, yr,  linewidth=0.5, color='k')
+            plt.axis([-0.5, +7.0**0.5+0.5 , -2.5, 1])
         ax.set_aspect(1)
-        plt.axis([-0.5, +7.0**0.5+0.5 , -2.5, 1])
     if grid:
         ax.grid(True)
     else:
@@ -114,7 +125,7 @@ def main():
     parser = argparse.ArgumentParser(description='Generate a gosper fractal curve')
     pa = parser.add_argument
     pa('level', type=int, help='number of recursion level. Reasonnable value is 6')
-    pa('--tile', action='store_true', help='boolean used to create a tiling of the generated curve')
+    pa('-t','--tile', action='store_true', help='boolean used to create a tiling of the generated curve')
     pa('-a', '--all', action='store_true', help='boolean used to display all levels (disable when tiling)')
     pa('-o', '--output', default=None, help='name of the generated file. If not provided, result will display on screen')
     pa('-g', '--grid', action='store_true', help='boolean used to display grid')
