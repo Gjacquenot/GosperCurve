@@ -1,4 +1,15 @@
-
+# The Gosper curve, also known as Peano-Gosper Curve, named after Bill Gosper,
+# also known as the flowsnake (a spoonerism of snowflake), is a space-filling curve.
+#
+# It is a fractal object similar in its construction to the dragon curve and the Hilbert curve.
+#
+#
+# Examples of use:
+#
+# python gosper.py --help
+# python gosper.py 6
+# python gosper.py 6 -o gosper_6.svg
+# python gosper.py 6 -o gosper_6.gif
 
 def create_gosper_fractal(max_level = 6):
 
@@ -58,29 +69,25 @@ def plot_level(max_level = 6, **kwargs):
     fig, ax = plt.subplots()
     res = create_gosper_fractal(max_level)
     if showAllLevel:
+        x_offset = 0.5
         for i in range(max_level, -1, -1):
             x, y = generate_level(res[i])
-            c, s = cos(i*alpha), sin(i*alpha)
+            c, s = cos(i * alpha), sin(i * alpha)
             xr, yr = fRotateX(c, s, x, y), fRotateY(c, s, x, y)
-            ax.plot(fAdd(3.5 * i, xr), yr,  linewidth=0.5, color='C'+str(i))
+            ax.plot(fAdd( (+7.0**0.5 + x_offset) * i, xr), yr,  linewidth=0.5, color='C'+str(i))
+        ax.set_aspect(1)
+        plt.axis([-0.5, (+7.0**0.5 + x_offset) * (max_level+1) , -2.5, 1])
     else:
         x, y = generate_level(res[max_level])
         c, s = cos(max_level * alpha), sin(max_level * alpha)
         xr, yr = fRotateX(c, s, x, y), fRotateY(c, s, x, y)
         ax.plot(xr, yr,  linewidth=0.5, color='k')
-
-        #ax.plot(fAdd(4*i,x), y,  linewidth=0.5, color='C'+str(i))
-    # ax.plot(fAdd(1,x), y, linewidth=0.5, color='k')
-    #plt.axes().set_aspect('equal') # , 'datalim'
-    #plt.axis([-0.5, 4*max_level, -2.5, 1])
-
-    # plt.axis('equal')
-    plt.axis('scaled')
-
+        ax.set_aspect(1)
+        plt.axis([-0.5, +7.0**0.5+0.5 , -2.5, 1])
     if grid:
-        plt.grid(True)
+        ax.grid(True)
     else:
-        plt.axis('off')
+        ax.axis('off')
     if filename:
         plt.savefig(filename)
         plt.close()
