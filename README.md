@@ -13,3 +13,5 @@ create the images presented below
     python gosper.py 6 -o gosper_6.gif
 
 ![Alt text](https://upload.wikimedia.org/wikipedia/commons/c/c1/Gosper_6.gif)
+
+![Alt text](https://upload.wikimedia.org/wikipedia/commons/4/48/Gosper_6_tile.gif)
