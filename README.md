@@ -2,7 +2,7 @@
 
 This repository contains elements to create
 [Gosper curves](https://en.wikipedia.org/wiki/Gosper_curve),
-that recursive space filling curves.
+that are recursive space filling curves.
 
 Here are some command line examples that can be used to
 create the images presented below
